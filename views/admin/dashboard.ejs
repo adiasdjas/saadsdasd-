@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - الأدمن</title>
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: #1e1e2e;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background: #252538;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .logo {
+            color: #7289da;
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .logout-btn {
+            background: #ed4245;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .admin-container {
+            padding: 2rem;
+        }
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .admin-card {
+            background: #252538;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+        .section-title {
+            color: #7289da;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #3a3a4a;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            background: #2e2e45;
+            border: 1px solid #3a3a4a;
+            border-radius: 5px;
+            color: #e0e0e0;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: bold;
+        }
+        .btn-primary {
+            background: #7289da;
+            color: white;
+        }
+        .btn-danger {
+            background: #ed4245;
+            color: white;
+        }
+        .btn-success {
+            background: #3ba55d;
+            color: white;
+        }
+        .btn-warning {
+            background: #faa61a;
+            color: white;
+        }
+        .list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #2e2e45;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .badge-danger {
+            background: #ed4245;
+            color: white;
+        }
+        .badge-success {
+            background: #3ba55d;
+            color: white;
+        }
+        .badge-warning {
+            background: #faa61a;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .tab-links {
+            display: flex;
+            border-bottom: 1px solid #3a3a4a;
+            margin-bottom: 1rem;
+        }
+        .tab-link {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            background: #252538;
+            border: none;
+            color: #a2a3b7;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .tab-link.active {
+            color: #7289da;
+            border-bottom: 3px solid #7289da;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="header">
+        <h1 class="logo">لوحة تحكم الأدمن</h1>
+        <form action="/" method="GET">
+            <button type="submit" class="logout-btn">تسجيل الخروج</button>
+        </form>
+    </div>
+
+    <div class="admin-container">
+        <div class="tab-links">
+            <button class="tab-link active" onclick="openTab('dashboard')">لوحة التحكم</button>
+            <button class="tab-link" onclick="openTab('automod')">التعديل</button>
+            <button class="tab-link" onclick="openTab('users')">إدارة المستخدمين</button>
+            <button class="tab-link" onclick="openTab('messages')">إدارة الرسائل</button>
+        </div>
+
+        <div id="dashboard" class="tab-content active">
+            <div class="admin-grid">
+                <div class="admin-card">
+                    <h2 class="section-title">إرسال رساله</h2>
+                    <form action="/admin/system-message" method="POST">
+                        <div class="form-group">
+                            <textarea name="message" class="form-control" rows="3" required placeholder="اكتب الرسالة  هنا..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">إرسال للجميع</button>
+                    </form>
+                </div>
+
+                <div class="admin-card">
+                    <h2 class="section-title">إحصائيات سريعة</h2>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div style="background: #252538; padding: 1rem; border-radius: 5px;">
+                            <div style="font-size: 2rem; font-weight: bold; color: #7289da;"><%= users.length %></div>
+                            <div>مستخدم نشط</div>
+                        </div>
+                        <div style="background: #252538; padding: 1rem; border-radius: 5px;">
+                            <div style="font-size: 2rem; font-weight: bold; color: #3ba55d;"><%= messages.length %></div>
+                            <div>رسالة اليوم</div>
+                        </div>
+                        <div style="background: #252538; padding: 1rem; border-radius: 5px;">
+                            <div style="font-size: 2rem; font-weight: bold; color: #faa61a;"><%= bannedUsers.length %></div>
+                            <div>مستخدم محظور</div>
+                        </div>
+                        <div style="background: #252538; padding: 1rem; border-radius: 5px;">
+                            <div style="font-size: 2rem; font-weight: bold; color: #ed4245;"><%= Object.keys(mutedUsers).length %></div>
+                            <div>مستخدم مكتوم</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="automod" class="tab-content">
+            <div class="admin-grid">
+                <div class="admin-card">
+                    <h2 class="section-title">الكلمات المحظورة</h2>
+                    <form action="/admin/add-banned-word" method="POST">
+                        <div class="form-group">
+                            <input type="text" name="word" class="form-control" placeholder="أضف كلمة محظورة جديدة" required>
+                        </div>
+                        <button type="submit" class="btn btn-danger">إضافة</button>
+                    </form>
+                    
+                    <h3 style="margin-top: 1.5rem;">قائمة الكلمات المحظورة</h3>
+                    <ul class="list">
+                        <% bannedWords.forEach(word => { %>
+                            <li class="list-item">
+                                <span><%= word %></span>
+                                <form action="/admin/remove-banned-word" method="POST" style="margin: 0;">
+                                    <input type="hidden" name="word" value="<%= word %>">
+                                    <button type="submit" class="btn btn-small btn-danger"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </li>
+                        <% }); %>
+                    </ul>
+                </div>
+
+                <div class="admin-card">
+                    <h2 class="section-title">الردود التلقائية</h2>
+                    <form action="/admin/add-auto-response" method="POST">
+                        <div class="form-group">
+                            <input type="text" name="trigger" class="form-control" placeholder="الكلمه" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="response" class="form-control" placeholder="الرد" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">إضافة رد</button>
+                    </form>
+                    
+                    <h3 style="margin-top: 1.5rem;">قائمة الردود التلقائية</h3>
+                    <ul class="list">
+                        <% autoResponses.forEach((response, index) => { %>
+                            <li class="list-item">
+                                <div>
+                                    <strong>"<%= response.trigger %>"</strong> → "<%= response.response %>"
+                                </div>
+                                <form action="/admin/remove-auto-response" method="POST" style="margin: 0;">
+                                    <input type="hidden" name="index" value="<%= index %>">
+                                    <button type="submit" class="btn btn-small btn-danger"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </li>
+                        <% }); %>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <h2 class="section-title">إعدادات التعديل التلقائي</h2>
+                <form action="/admin/update-automod-settings" method="POST">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="enable_automod" checked>
+                                تفعيل النظام التلقائي
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="delete_banned_words" checked>
+                                حذف الرسائل المسيئة
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="warn_users" checked>
+                                إرسال تحذيرات
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" name="auto_mute" checked>
+                                كتم تلقائي بعد 3 تحذيرات
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success" style="margin-top: 1rem;">حفظ الإعدادات</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="users" class="tab-content">
+            <div class="admin-grid">
+                <div class="admin-card">
+                    <h2 class="section-title">حظر مستخدم</h2>
+                    <form action="/admin/ban" method="POST">
+                        <div class="form-group">
+                            <input type="text" name="username" class="form-control" placeholder="اسم المستخدم" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="reason" class="form-control" placeholder="سبب الحظر" required>
+                        </div>
+                        <div class="form-group">
+                            <select name="duration" class="form-control">
+                                <option value="permanent">حظر دائم</option>
+                                <option value="5">5 دقائق</option>
+                                <option value="30">30 دقيقة</option>
+                                <option value="60">ساعة واحدة</option>
+                                <option value="1440">يوم واحد</option>
+                                <option value="10080">أسبوع واحد</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-danger">حظر المستخدم</button>
+                    </form>
+                </div>
+
+                <div class="admin-card">
+                    <h2 class="section-title">كتم مستخدم</h2>
+                    <form action="/admin/mute" method="POST">
+                        <div class="form-group">
+                            <input type="text" name="username" class="form-control" placeholder="اسم المستخدم" required>
+                        </div>
+                        <div class="form-group">
+                            <select name="duration" class="form-control">
+                                <option value="5">5 دقائق</option>
+                                <option value="30">30 دقيقة</option>
+                                <option value="60">ساعة واحدة</option>
+                                <option value="1440">يوم واحد</option>
+                                <option value="10080">أسبوع واحد</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-warning">كتم المستخدم</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <h2 class="section-title">المستخدمون المحظورون/المكتومون</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div>
+                        <h3 style="color: #ed4245; margin-top: 0;">المحظورون (<%= bannedUsers.length %>)</h3>
+                        <ul class="list">
+                            <% bannedUsers.forEach(user => { %>
+                                <li class="list-item">
+                                    <span><%= user %></span>
+                                    <form action="/admin/unban" method="POST" style="margin: 0;">
+                                        <input type="hidden" name="username" value="<%= user %>">
+                                        <button type="submit" class="btn btn-small btn-success">رفع الحظر</button>
+                                    </form>
+                                </li>
+                            <% }); %>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="color: #faa61a; margin-top: 0;">المكتومون (<%= Object.keys(mutedUsers).length %>)</h3>
+                        <ul class="list">
+                            <% Object.entries(mutedUsers).forEach(([username, time]) => { %>
+                                <li class="list-item">
+                                    <div>
+                                        <span><%= username %></span>
+                                        <small style="display: block; color: #a2a3b7; font-size: 0.8rem;">
+                                            حتى: <%= new Date(time).toLocaleTimeString() %>
+                                        </small>
+                                    </div>
+                                    <form action="/admin/unmute" method="POST" style="margin: 0;">
+                                        <input type="hidden" name="username" value="<%= username %>">
+                                        <button type="submit" class="btn btn-small btn-success">رفع الكتم</button>
+                                    </form>
+                                </li>
+                            <% }); %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="messages" class="tab-content">
+            <div class="admin-card">
+                <h2 class="section-title">آخر الرسائل (<%= messages.length %>)</h2>
+                <div style="max-height: 600px; overflow-y: auto;">
+                    <% messages.slice().reverse().forEach(msg => { %>
+                        <div style="padding: 1rem; background: #2e2e45; border-radius: 5px; margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="font-weight: bold; color: #7289da;"><%= msg.username %></span>
+                                <span style="color: #a2a3b7; font-size: 0.8rem;"><%= msg.timestamp %></span>
+                            </div>
+                            <div style="margin-bottom: 0.5rem;"><%= msg.text %></div>
+                            <% if (msg.isImage) { %>
+                                <img src="<%= msg.imageUrl %>" style="max-width: 100%; max-height: 200px; border-radius: 5px;">
+                            <% } %>
+                            <form action="/admin/delete-message" method="POST" style="margin-top: 0.5rem;">
+                                <input type="hidden" name="messageId" value="<%= msg.id %>">
+                                <button type="submit" class="btn btn-small btn-danger">حذف الرسالة</button>
+                            </form>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.tab-link[onclick="openTab('${tabId}')"]`).classList.add('active');
+        }
+    </script>
+</body>
+</html>

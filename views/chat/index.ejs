@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Last Chat Dev By Aymen- <%= username %></title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="header">
+        <h1 class="logo">Last Chat Dev By Aymen</h1>
+        <div class="user-info">
+            <div class="user-avatar"><%= username.charAt(0).toUpperCase() %></div>
+            <form action="/" method="GET">
+                <button type="submit" class="logout-btn"> Log Out</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="chat-container">
+        <div class="users-sidebar">
+            <h2 class="users-title">Online Users</h2>
+            <div id="users-container"></div>
+        </div>
+        
+        <div class="chat-main">
+            <div id="messages-container" class="messages-container"></div>
+            
+            <div class="input-container">
+                <form id="message-form" class="message-form">
+                    <input type="text" id="message-input" class="message-input" placeholder="Test Your Massege here" autocomplete="off">
+                    <button type="button" id="emoji-btn" class="emoji-btn">
+                        <i class="far fa-smile"></i>
+                    </button>
+                    <button type="button" id="image-btn" class="image-btn">
+                        <i class="far fa-image"></i>
+                    </button>
+                    <input type="file" id="image-upload" class="image-upload" accept="image/*">
+                    <button type="submit" id="send-btn" class="send-btn">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div id="emoji-picker" class="emoji-picker">
+        <div class="emoji-grid">
+            <span class="emoji-item">😀</span>
+            <span class="emoji-item">😂</span>
+            <span class="emoji-item">😍</span>
+            <span class="emoji-item">😎</span>
+            <span class="emoji-item">🤔</span>
+            <span class="emoji-item">😢</span>
+            <span class="emoji-item">😡</span>
+            <span class="emoji-item">👍</span>
+            <span class="emoji-item">👎</span>
+            <span class="emoji-item">❤️</span>
+            <span class="emoji-item">🔥</span>
+            <span class="emoji-item">🎉</span>
+            <span class="emoji-item">💯</span>
+            <span class="emoji-item">🙏</span>
+            <span class="emoji-item">😴</span>
+            <span class="emoji-item">🤣</span>
+            <span class="emoji-item">🗿</span>
+        </div>
+    </div>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const socket = io();
+            const username = '<%= username %>';
+            
+            if (username) {
+                socket.emit('register_user', username);
+            }
+
+            const messageForm = document.getElementById('message-form');
+            const messageInput = document.getElementById('message-input');
+            const messagesContainer = document.getElementById('messages-container');
+            const emojiBtn = document.getElementById('emoji-btn');
+            const emojiPicker = document.getElementById('emoji-picker');
+            const imageBtn = document.getElementById('image-btn');
+            const imageUpload = document.getElementById('image-upload');
+
+            messageForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const message = messageInput.value.trim();
+                if (message) {
+                    socket.emit('send_message', { text: message, isImage: false });
+                    messageInput.value = '';
+                }
+            });
+
+            imageBtn.addEventListener('click', () => {
+                imageUpload.click();
+            });
+
+            imageUpload.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        socket.emit('send_message', { 
+                            text: 'صورة مرفوعة',
+                            isImage: true,
+                            imageUrl: event.target.result
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            emojiBtn.addEventListener('click', () => {
+                emojiPicker.classList.toggle('show');
+            });
+
+            document.querySelectorAll('.emoji-item').forEach(emoji => {
+                emoji.addEventListener('click', () => {
+                    messageInput.value += emoji.textContent;
+                    messageInput.focus();
+                });
+            });
+
+            socket.on('new_message', (message) => {
+                const messageElement = document.createElement('div');
+                messageElement.className = 'message';
+                messageElement.innerHTML = `
+                    <div class="message-header">
+                        <span>${message.username}</span>
+                        <span>${new Date().toLocaleTimeString()}</span>
+                    </div>
+                    <div class="message-text">${message.text}</div>
+                    ${message.isImage ? `<img src="${message.imageUrl}" class="message-image">` : ''}
+                `;
+                messagesContainer.appendChild(messageElement);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            });
+
+            socket.on('user_joined', (message) => {
+                const systemMessage = document.createElement('div');
+                systemMessage.className = 'system-message';
+                systemMessage.textContent = message;
+                messagesContainer.appendChild(systemMessage);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            });
+
+            socket.on('user_left', (message) => {
+                const systemMessage = document.createElement('div');
+                systemMessage.className = 'system-message';
+                systemMessage.textContent = message;
+                messagesContainer.appendChild(systemMessage);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            });
+
+            socket.on('update_users', (usersList) => {
+                const usersContainer = document.getElementById('users-container');
+                if (usersContainer) {
+                    usersContainer.innerHTML = '';
+                    usersList.forEach(user => {
+                        const userElement = document.createElement('div');
+                        userElement.className = 'user-item';
+                        userElement.textContent = user;
+                        usersContainer.appendChild(userElement);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

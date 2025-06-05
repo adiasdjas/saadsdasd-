@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>إعدادات التعديل</title>
+
+    <link rel="stylesheet" href="/styles.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+
+<body>
+
+    <div class="header">
+
+        <h1 class="logo">إعدادات التعديل التلقائي</h1>
+
+        <div>
+
+            <a href="/admin/dashboard" style="color: white; margin-left: 1rem;">العودة للوحة التحكم</a>
+
+            <form action="/" method="GET" style="display: inline;">
+
+                <button type="submit" class="logout-btn">تسجيل الخروج</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <div class="admin-container">
+
+        <div class="card">
+
+            <h2 class="section-title">الكلمات المحظورة</h2>
+
+            <form action="/admin/add-banned-word" method="POST">
+
+                <div class="form-group">
+
+                    <input type="text" name="word" class="form-control" placeholder="أضف كلمة جديدة" required>
+
+                </div>
+
+                <button type="submit" class="btn btn-primary">إضافة</button>
+
+            </form>
+
+            
+
+            <ul class="list" style="margin-top: 1.5rem;">
+
+                <% bannedWords.forEach(word => { %>
+
+                    <li class="list-item">
+
+                        <span><%= word %></span>
+
+                        <div class="actions">
+
+                            <form action="/admin/remove-banned-word" method="POST">
+
+                                <input type="hidden" name="word" value="<%= word %>">
+
+                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+
+                            </form>
+
+                        </div>
+
+                    </li>
+
+                <% }); %>
+
+            </ul>
+
+        </div>
+
+        <div class="card">
+
+            <h2 class="section-title">الردود التلقائية</h2>
+
+            <form action="/admin/add-auto-response" method="POST">
+
+                <div class="form-group">
+
+                    <input type="text" name="trigger" class="form-control" placeholder="الكلمة" required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <input type="text" name="response" class="form-control" placeholder="الرد" required>
+
+                </div>
+
+                <button type="submit" class="btn btn-primary">إضافة</button>
+
+            </form>
+
+            
+
+            <ul class="list" style="margin-top: 1.5rem;">
+
+                <% autoResponses.forEach((response, index) => { %>
+
+                    <li class="list-item">
+
+                        <div>
+
+                            <strong>"<%= response.trigger %>"</strong> → "<%= response.response %>"
+
+                        </div>
+
+                        <div class="actions">
+
+                            <form action="/admin/remove-auto-response" method="POST">
+
+                                <input type="hidden" name="index" value="<%= index %>">
+
+                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+
+                            </form>
+
+                        </div>
+
+                    </li>
+
+                <% }); %>
+
+            </ul>
+
+        </div>
+
+        <div class="card">
+
+            <h2 class="section-title">إعدادات التعديل التلقائي</h2>
+
+            <form action="/admin/update-automod-settings" method="POST">
+
+                <div class="form-group">
+
+                    <label>
+
+                        <input type="checkbox" name="enable_automod" checked>
+
+                        تفعيل نظام التعديل التلقائي
+
+                    </label>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        <input type="checkbox" name="delete_banned_words" checked>
+
+                        حذف الرسائل التي تحتوي على كلمات محظورة
+
+                    </label>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        <input type="checkbox" name="warn_users" checked>
+
+                        تحذير المستخدمين عند استخدام كلمات محظورة
+
+                    </label>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        <input type="checkbox" name="auto_mute" checked>
+
+                        كتم المستخدمين تلقائياً بعد 3 تحذيرات
+
+                    </label>
+
+                </div>
+
+                <button type="submit" class="btn btn-success">حفظ الإعدادات</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

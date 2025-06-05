@@ -1,0 +1,324 @@
+body {
+    font-family: 'Tajawal', sans-serif;
+    background: #1e1e2e;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background: #252538;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+    color: #7289da;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #7289da;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.logout-btn {
+    background: #ed4245;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+}
+
+.login-container {
+    background: #252538;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.login-title {
+    color: #7289da;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #a2a3b7;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    background: #2e2e45;
+    border: 1px solid #3a3a4a;
+    border-radius: 5px;
+    color: #e0e0e0;
+    font-family: 'Tajawal', sans-serif;
+}
+
+.btn {
+    padding: 0.75rem;
+    background: #7289da;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.btn:hover {
+    background: #677bc4;
+}
+
+.btn-small {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+}
+
+.btn-primary {
+    background: #7289da;
+}
+
+.btn-danger {
+    background: #ed4245;
+}
+
+.btn-success {
+    background: #3ba55d;
+}
+
+.btn-warning {
+    background: #faa61a;
+}
+
+.error-message {
+    color: #ed4245;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.admin-link {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.admin-link a {
+    color: #a2a3b7;
+    text-decoration: none;
+}
+
+.chat-container {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    height: calc(100vh - 80px);
+}
+
+.users-sidebar {
+    width: 250px;
+    background: #252538;
+    border-left: 1px solid #3a3a4a;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.users-title {
+    color: #7289da;
+    margin-top: 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #3a3a4a;
+}
+
+.user-item {
+    padding: 0.5rem;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+    background: #2e2e45;
+}
+
+.chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.messages-container {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.message {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: #252538;
+    border-radius: 5px;
+    max-width: 70%;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    color: #7289da;
+}
+
+.message-text {
+    word-wrap: break-word;
+}
+
+.system-message {
+    text-align: center;
+    color: #a2a3b7;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+}
+
+.message-image {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 5px;
+    margin-top: 0.5rem;
+}
+
+.input-container {
+    padding: 1rem;
+    background: #252538;
+    border-top: 1px solid #3a3a4a;
+}
+
+.message-form {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.message-input {
+    flex: 1;
+    padding: 0.75rem;
+    background: #2e2e45;
+    border: 1px solid #3a3a4a;
+    border-radius: 5px;
+    color: #e0e0e0;
+    font-family: 'Tajawal', sans-serif;
+}
+
+.emoji-btn, .image-btn, .send-btn {
+    padding: 0 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+}
+
+.emoji-btn {
+    background: #4f545c;
+    color: white;
+}
+
+.image-btn {
+    background: #3ba55d;
+    color: white;
+}
+
+.send-btn {
+    background: #7289da;
+    color: white;
+    font-weight: bold;
+}
+
+.image-upload {
+    display: none;
+}
+
+.emoji-picker {
+    position: absolute;
+    bottom: 80px;
+    right: 20px;
+    background: #252538;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    display: none;
+    max-height: 300px;
+    overflow-y: auto;
+    width: 300px;
+    z-index: 100;
+}
+
+.emoji-picker.show {
+    display: block;
+}
+
+.emoji-item {
+    display: inline-block;
+    font-size: 1.5rem;
+    padding: 0.25rem;
+    cursor: pointer;
+}
+
+.emoji-item:hover {
+    background: #3a3a4a;
+    border-radius: 5px;
+}
+
+.emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.5rem;
+}
+
+.admin-container {
+    padding: 2rem;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.admin-card {
+    background: #252538;
+    padding: 1.5rem;
+    border-radius: 10px;
+}
+
+.section-title {
+    color: #7289da;
+    margin-top: 0;
+    border-bottom: 1px solid #3a3a4a;
+    padding-bottom: 0.5rem;
+}
+
+.users-grid, 
